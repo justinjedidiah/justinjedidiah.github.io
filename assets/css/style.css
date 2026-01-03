@@ -1,0 +1,113 @@
+:root {
+  --bg: #f8fafc;
+  --fg: #0f172a;
+  --card: rgba(255, 255, 255, 0.65);
+  --border: rgba(15, 23, 42, 0.15);
+  --accent: #2563eb;
+}
+
+/* Dark mode overrides */
+html.dark {
+  --bg: #0f172a;
+  --fg: #e5e7eb;
+  --card: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.15);
+  --accent: #38bdf8;
+}
+
+body, .card {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(1200px circle at 10% 10%, #1e293b, var(--bg));
+  color: var(--fg);
+  line-height: 1.6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.75);
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  max-width: 960px;
+  margin: auto;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav a {
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+main {
+  max-width: 960px;
+  margin: 80px auto;
+  padding: 0 16px;
+}
+
+/* Glass cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* Hero */
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  max-width: 600px;
+  opacity: 0.9;
+}
+
+/* Projects */
+.project {
+  margin-bottom: 20px;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.project-content {
+  margin-top: 12px;
+  display: none;
+  opacity: 0.9;
+}
+
+/* Animation */
+.project-content.show {
+  display: block;
+  animation: fadeIn 0.25s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
