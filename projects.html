@@ -4,49 +4,71 @@
   <meta charset="UTF-8">
   <title>Projects</title>
   <link rel="stylesheet" href="assets/css/style.css">
+  <script>
+    (function () {
+        const theme = localStorage.getItem("theme");
+        if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+        }
+    })();
+    </script>
+  <script src="assets/js/theme.js" defer></script>
+  <script src="assets/js/theme.js" defer></script>
 </head>
 <body>
 
 <header>
   <nav>
-    <strong>Justin</strong>
+    <strong>Justin's Portfolio</strong>
     <div>
-        <a href="/">Home</a>
-        <a href="/projects.html">Projects</a>
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
         <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
     </div>
     </nav>
 </header>
 
 <main>
-
   <section class="card">
-    <h1>Projects</h1>
+  <h1>Projects</h1>
+    <div class="scroll-container">
+      <div class="project">
+        <div class="project-header">
+            <h3>
+            Telco Churn Prediction with XGBoost and Torch NN
+            <span class="chevron">▾</span>
+            </h3>
+            <p>
+            Hyperparameter tuning, class weighting, and AUC optimization on imbalanced data.
+            </p>
+        </div>
 
-    <div class="project">
-      <div class="project-header" onclick="toggle(this)">
-        <strong>XGBoost Optimization</strong>
-        <span>▾</span>
-      </div>
-      <div class="project-content">
-        Hyperparameter tuning, class weighting, and AUC optimization on imbalanced data.
+        <div class="project-body">
+            <p>
+            In this project, I made a logistic classifier as a baseline model and then built two
+            more advanced models which are neural network with torch and XGBoost ensemble model.
+            Steps I took:
+            </p>
+            <ul>
+                <li>Setups (imports, enabling gpu usage)</li>
+                <li>EDA and data cleaning</li>
+                <li>Baseline modelling with Logistic Classifier</li>
+                <li>Modeling NN and XGBoost with stratified CV and hyperparameter tuning</li>
+            </ul>
+
+            <a
+            class="github-btn"
+            href="https://github.com/justinjedidiah/telco-churn-data-science"
+            target="_blank"
+            rel="noopener noreferrer"
+            >
+            GitHub
+            </a>
+        </div>
       </div>
     </div>
-
-    <div class="project">
-      <div class="project-header" onclick="toggle(this)">
-        <strong>PowerShell Automation</strong>
-        <span>▾</span>
-      </div>
-      <div class="project-content">
-        Headless browser automation, HTML parsing, Excel reporting, and email delivery.
-      </div>
-    </div>
-
   </section>
 
 </main>
-
-<script src="assets/js/main.js"></script>
 </body>
 </html>

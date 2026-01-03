@@ -5,19 +5,23 @@
   <title>Justin Sunarko</title>
   <link rel="stylesheet" href="assets/css/style.css">
   <script>
-    if (localStorage.theme === "dark") {
+    (function () {
+        const theme = localStorage.getItem("theme");
+        if (theme === "dark") {
         document.documentElement.classList.add("dark");
-    }
-  </script>
+        }
+    })();
+    </script>
+  <script src="assets/js/theme.js" defer></script>
 </head>
 <body>
 
 <header>
   <nav>
-    <strong>Justin</strong>
+    <strong>Justin's Portfolio</strong>
     <div>
-        <a href="/">Home</a>
-        <a href="/projects.html">Projects</a>
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
         <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
     </div>
     </nav>
