@@ -178,7 +178,7 @@ main {
 
 .scroll-container {
   /* Set a fixed height to enable scrolling */
-  max-height: 70dvh; 
+  max-height: 200dvh; 
   /* Use 'auto' to show scrollbar only when content overflows */
   overflow-y: auto; 
   /* Hide horizontal scrollbar if not needed */
@@ -255,7 +255,7 @@ main {
 
 /* expanded state */
 .project.expanded .project-body {
-  max-height: 300px;
+  max-height:fit-content;
   opacity: 1;
   margin-top: 1rem;
 }
