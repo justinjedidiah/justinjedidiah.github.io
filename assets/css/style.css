@@ -151,7 +151,7 @@ main {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: 16px;
-  padding: 2.5rem;
+  padding: 5vw;
 
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(16px);
@@ -170,13 +170,29 @@ main {
 .card p {
   max-width: auto;
   line-height: 1.6;
+  text-align: left;
+}
+
+.scroll-container {
+  /* Set a fixed height to enable scrolling */
+  max-height: 70dvh; 
+  /* Use 'auto' to show scrollbar only when content overflows */
+  overflow-y: auto; 
+  /* Hide horizontal scrollbar if not needed */
+  overflow-x: auto; 
+
+  /* Basic styling for the container */
+  width: auto;
+  padding: 10px;
+  /* Optional: smooth scrolling behavior */
+  scroll-behavior: smooth; 
 }
 
 /* =================================================
    PROJECT BLOCK
 ================================================= */
 .project {
-  margin-top: 1.5rem;
+  margin-top: 1.5vw;
   padding: 1.5rem;
   border-radius: 12px;
   cursor: pointer;
@@ -204,21 +220,6 @@ main {
   color: color-mix(in srgb, var(--fg) 50%, var(--accent));
 }
 
-.scroll-container {
-  /* Set a fixed height to enable scrolling */
-  max-height: 70dvh; 
-  /* Use 'auto' to show scrollbar only when content overflows */
-  overflow-y: auto; 
-  /* Hide horizontal scrollbar if not needed */
-  overflow-x: hidden; 
-
-  /* Basic styling for the container */
-  width: auto;
-  padding: 10px;
-  /* Optional: smooth scrolling behavior */
-  scroll-behavior: smooth; 
-}
-
 .project p,li {
   margin: 0;
   font-size: 0.95rem;
@@ -230,6 +231,10 @@ main {
 
 .project-header p {
     font-weight: 600;
+}
+
+.project-body p {
+  text-align: justify;
 }
 
 /* hidden content */
