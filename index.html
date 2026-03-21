@@ -1,42 +1,541 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Justin Sunarko</title>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <script>
-    (function () {
-        const theme = localStorage.getItem("theme");
-        if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-        }
-    })();
-    </script>
-  <script src="assets/js/theme.js" defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Justin · Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --border: #1e1e2e;
+    --text: #e8e6f0;
+    --muted: #6b6880;
+    --accent: #c8b5ff;
+    --accent2: #ff9f7e;
+    --ts: #3b82f6;
+    --py: #f59e0b;
+    --jup: #f97316;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(200,181,255,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.18s ease, width 0.3s, height 0.3s;
+  }
+  .cursor.hovered { width: 6px; height: 6px; background: var(--accent2); }
+  .cursor-ring.hovered { width: 52px; height: 52px; border-color: rgba(255,159,126,0.5); }
+
+  /* Grid noise overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(200,181,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,181,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ambient glow */
+  .glow {
+    position: fixed;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+  }
+  .glow-1 { background: var(--accent); top: -200px; left: -100px; }
+  .glow-2 { background: var(--accent2); bottom: -200px; right: -100px; }
+
+  /* Layout */
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 32px 120px;
+  }
+
+  /* Header */
+  header {
+    margin-bottom: 96px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .eyebrow::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    max-width: 120px;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(52px, 8vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 28px;
+  }
+  h1 em {
+    color: var(--accent);
+    font-style: italic;
+  }
+
+  .bio {
+    max-width: 480px;
+    color: var(--muted);
+    line-height: 1.7;
+    font-size: 13px;
+    margin-bottom: 36px;
+  }
+
+  .links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s;
+  }
+  .links a:hover { color: var(--accent); }
+  .links a svg { width: 14px; height: 14px; }
+
+  /* Section label */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    /* text-transform: uppercase; */
+    color: var(--muted);
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label span {
+    color: var(--accent);
+    font-size: 10px;
+  }
+
+  /* Projects grid */
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 36px 32px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color 0.3s;
+    cursor: none;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(200,181,255,0.04), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card:hover::before { opacity: 1; }
+  .card:hover { border-color: rgba(200,181,255,0.25); }
+
+  /* Card shimmer on hover */
+  .card::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -60%;
+    width: 40%; height: 200%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+    transform: skewX(-15deg);
+    transition: left 0.5s ease;
+  }
+  .card:hover::after { left: 130%; }
+
+  .card-index {
+    position: absolute;
+    top: 24px; right: 28px;
+    font-size: 10px;
+    color: var(--border);
+    letter-spacing: 0.1em;
+  }
+
+  .card-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 24px;
+    background: rgba(255,255,255,0.02);
+    transition: border-color 0.3s;
+  }
+  .card:hover .card-icon { border-color: rgba(200,181,255,0.3); }
+  .card-icon svg { width: 18px; height: 18px; color: var(--muted); }
+
+  .card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+    color: var(--text);
+    transition: color 0.2s;
+  }
+  .card:hover h2 { color: var(--accent); }
+
+  .card p {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.65;
+    margin-bottom: 28px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .lang-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .dot-ts { background: var(--ts); }
+  .dot-py { background: var(--py); }
+  .dot-jup { background: var(--jup); }
+
+  .arrow-link {
+    font-size: 11px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: opacity 0.2s, transform 0.2s, color 0.2s;
+  }
+  .card:hover .arrow-link { opacity: 1; transform: translateX(0); color: var(--accent); }
+
+  /* Wide card */
+  .card-wide {
+    grid-column: span 2;
+  }
+
+  /* Stats bar (decorative) */
+  .stats {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    margin-top: 2px;
+  }
+  .stat {
+    flex: 1;
+    padding: 20px 24px;
+    border-right: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--text);
+    display: block;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Footer */
+  footer {
+    margin-top: 80px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 11px;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate {
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+  }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.15s; }
+  .d3 { animation-delay: 0.25s; }
+  .d4 { animation-delay: 0.35s; }
+  .d5 { animation-delay: 0.45s; }
+  .d6 { animation-delay: 0.55s; }
+  .d7 { animation-delay: 0.65s; }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    main { padding: 48px 20px 80px; }
+    .projects { grid-template-columns: 1fr; }
+    .card-wide { grid-column: span 1; }
+    .stats { flex-direction: column; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .stat:last-child { border-bottom: none; }
+    footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+    h1 { font-size: 48px; }
+  }
+</style>
 </head>
 <body>
 
-<header>
-  <nav>
-    <strong>Justin's Portfolio</strong>
-    <div>
-        <a href="index.html">Home</a>
-        <a href="projects.html">Projects</a>
-        <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
-    </div>
-    </nav>
-</header>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
 
 <main>
-  <section class="card hero">
-    <h1>Hi, I'm Justin 👋</h1>
-    <p>
-      I work on data science, security automation, and systems engineering.
-      I enjoy building things that are simple, robust, and explainable.
+  <header>
+    <p class="eyebrow animate d1">Available for work</p>
+    <h1 class="animate d2">Exploring<br>what <em>AI</em><br>can do.</h1>
+    <p class="bio animate d3">
+      I'm an AI & data engineer interested in how we can use LLMs and data to make useful things. Just looking for better ways to solve problems.
     </p>
-  </section>
+    <div class="links animate d4">
+      <a href="https://github.com/justinjedidiah" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        github.com/justinjedidiah
+      </a>
+      <a href="mailto:justin.jedidiah@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        justin.jedidiah@gmail.com
+      </a>
+    </div>
+  </header>
+
+  <div class="section-label animate d5">
+    Some projects I've built <span>// 03</span>
+  </div>
+
+  <div class="projects animate d6">
+    <!-- claritree -->
+    <a class="card" href="https://github.com/justinjedidiah/claritree" target="_blank">
+      <span class="card-index">01</span>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
+      </div>
+      <h2>claritree</h2>
+      <p>An interactive financial calculation tree paired with an AI analyst. Visualize complex financial models while getting live AI-driven insights and annotations.</p>
+      <div class="card-footer">
+        <div class="lang-badge">
+          <span class="dot dot-ts"></span>TypeScript
+          <span class="dot dot-py"></span>Python
+        </div>
+        <span class="arrow-link">View repo →</span>
+      </div>
+    </a>
+
+    <!-- telco churn -->
+    <a class="card" href="https://github.com/justinjedidiah/telco-churn-data-science" target="_blank">
+      <span class="card-index">02</span>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      </div>
+      <h2>telco-churn</h2>
+      <p>Predicting customer churn for a fictional telco company using neural networks and XGBoost. Full data science pipeline from EDA to deployment-ready models.</p>
+      <div class="card-footer">
+        <div class="lang-badge">
+          <span class="dot dot-jup"></span>Jupyter Notebook
+        </div>
+        <span class="arrow-link">View repo →</span>
+      </div>
+    </a>
+
+    <!-- rag-explorer -->
+    <a class="card card-wide" href="https://github.com/justinjedidiah/rag-explorer" target="_blank">
+      <span class="card-index">03</span>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+      </div>
+      <h2>rag-explorer</h2>
+      <p>Try every RAG configuration and find the best one for your needs. A systematic evaluation framework for retrieval-augmented generation setups. Compare chunking strategies, embedding models, retrieval methods, and re-ranking approaches side by side.</p>
+      <div class="card-footer">
+        <div class="lang-badge">
+          <span class="dot dot-py"></span>Python
+        </div>
+        <span class="arrow-link">View repo →</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="stats animate d7">
+    <div class="stat">
+      <span class="stat-val">3</span>
+      <span class="stat-label">Public Repos</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">3</span>
+      <span class="stat-label">Languages</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">AI</span>
+      <span class="stat-label">Focus Area</span>
+    </div>
+    <div class="stat">
+      <span class="stat-val">Open</span>
+      <span class="stat-label">To Collab</span>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 Justin</span>
+  </footer>
 </main>
 
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, .card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add('hovered');
+      ring.classList.add('hovered');
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove('hovered');
+      ring.classList.remove('hovered');
+    });
+  });
+
+  // Hide cursor when leaving window
+  document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0'; ring.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '1'; ring.style.opacity = '1';
+  });
+
+  // Animate stats counter
+  function animateCount(el, target, suffix = '') {
+    if (isNaN(target)) return;
+    let start = 0;
+    const step = () => {
+      start += Math.ceil((target - start) / 6);
+      el.textContent = start + suffix;
+      if (start < target) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    };
+    requestAnimationFrame(step);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelectorAll('.stat-val').forEach(el => {
+          const v = parseInt(el.textContent);
+          animateCount(el, v);
+        });
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  document.querySelector('.stats') && observer.observe(document.querySelector('.stats'));
+</script>
 </body>
 </html>
