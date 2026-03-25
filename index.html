@@ -33,6 +33,7 @@
     overflow-x: hidden;
     cursor: none;
   }
+  a { cursor: none; }
 
   /* Custom cursor */
   .cursor {
@@ -199,6 +200,7 @@
     background: linear-gradient(135deg, rgba(200,181,255,0.04), transparent 60%);
     opacity: 0;
     transition: opacity 0.3s;
+    pointer-events: none;
   }
   .card:hover::before { opacity: 1; }
   .card:hover { border-color: rgba(200,181,255,0.25); }
@@ -212,6 +214,7 @@
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
     transform: skewX(-15deg);
     transition: left 0.5s ease;
+    pointer-events: none;
   }
   .card:hover::after { left: 130%; }
 
@@ -219,7 +222,7 @@
     position: absolute;
     top: 24px; right: 28px;
     font-size: 10px;
-    color: var(--border);
+    color: var(--muted);
     letter-spacing: 0.1em;
   }
 
@@ -281,11 +284,10 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    opacity: 0;
-    transform: translateX(-8px);
-    transition: opacity 0.2s, transform 0.2s, color 0.2s;
+    transition: color 0.2s;
+    cursor: none;
   }
-  .card:hover .arrow-link { opacity: 1; transform: translateX(0); color: var(--accent); }
+  .card .arrow-link:hover { color: var(--accent); }
 
   /* Wide card */
   .card-wide {
@@ -362,6 +364,10 @@
     footer { flex-direction: column; gap: 12px; align-items: flex-start; }
     h1 { font-size: 48px; }
   }
+  @media (hover: none) {
+    .cursor, .cursor-ring { display: none; }
+    body { cursor: auto; }
+  }
 </style>
 </head>
 <body>
@@ -397,7 +403,7 @@
 
   <div class="projects animate d6">
     <!-- claritree -->
-    <a class="card" href="https://github.com/justinjedidiah/claritree" target="_blank">
+    <div class="card">
       <span class="card-index">01</span>
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
@@ -409,12 +415,15 @@
           <span class="dot dot-ts"></span>TypeScript
           <span class="dot dot-py"></span>Python
         </div>
-        <span class="arrow-link">View repo →</span>
+        <div style="display:flex; gap:16px;">
+          <a href="https://claritree.vercel.app" target="_blank" class="arrow-link" >Live demo ↗</a>
+          <a href="https://github.com/justinjedidiah/claritree" target="_blank" class="arrow-link">View repo →</a>
+        </div>
       </div>
-    </a>
+    </div>
 
     <!-- telco churn -->
-    <a class="card" href="https://github.com/justinjedidiah/telco-churn-data-science" target="_blank">
+    <div class="card">
       <span class="card-index">02</span>
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
@@ -425,12 +434,12 @@
         <div class="lang-badge">
           <span class="dot dot-jup"></span>Jupyter Notebook
         </div>
-        <span class="arrow-link">View repo →</span>
+        <a class="arrow-link" href="https://github.com/justinjedidiah/telco-churn-data-science" target="_blank">View repo →</a>
       </div>
-    </a>
+    </div>
 
     <!-- rag-explorer -->
-    <a class="card card-wide" href="https://github.com/justinjedidiah/rag-explorer" target="_blank">
+    <div class="card card-wide">
       <span class="card-index">03</span>
       <div class="card-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
@@ -441,9 +450,9 @@
         <div class="lang-badge">
           <span class="dot dot-py"></span>Python
         </div>
-        <span class="arrow-link">View repo →</span>
+        <a class="arrow-link" href="https://github.com/justinjedidiah/rag-explorer" target="_blank">View repo →</a>
       </div>
-    </a>
+    </div>
   </div>
 
   <div class="stats animate d7">
@@ -491,14 +500,18 @@
   }
   animateRing();
 
-  document.querySelectorAll('a, .card').forEach(el => {
+  // replace the existing querySelectorAll listener block with this
+  document.querySelectorAll('a').forEach(el => {
     el.addEventListener('mouseenter', () => {
       cursor.classList.add('hovered');
       ring.classList.add('hovered');
     });
-    el.addEventListener('mouseleave', () => {
-      cursor.classList.remove('hovered');
-      ring.classList.remove('hovered');
+    el.addEventListener('mouseleave', e => {
+      // don't remove if moving to a child or parent that's also hoverable
+      if (!e.relatedTarget?.closest('a')) {
+        cursor.classList.remove('hovered');
+        ring.classList.remove('hovered');
+      }
     });
   });
 
