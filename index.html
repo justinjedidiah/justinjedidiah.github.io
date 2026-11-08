@@ -16,6 +16,7 @@
 <meta name="twitter:description" content="AI &amp; data engineer building AI you can see inside: agents, retrieval and analytics that show their reasoning.">
 <meta name="theme-color" content="#0b0b10">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script>document.documentElement.classList.add('js');</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -300,9 +301,18 @@
     footer { flex-direction: column; }
   }
 
+  /* Reveal on scroll (only when JS runs and motion is allowed) */
+  .js .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.8s cubic-bezier(.2,.7,.2,1), transform 0.8s cubic-bezier(.2,.7,.2,1);
+    transition-delay: var(--delay, 0s);
+  }
+  .js .reveal.is-visible { opacity: 1; transform: none; }
+
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition: none !important; animation: none !important; }
+    .js .reveal { opacity: 1; transform: none; }
   }
 </style>
 </head>
@@ -325,13 +335,13 @@
 
 <main id="top">
   <header class="hero wrap">
-    <p class="status"><span class="status-dot" aria-hidden="true"></span>Available for work</p>
-    <h1>I build AI you can <em>see inside.</em></h1>
-    <p class="lead">
+    <p class="status reveal"><span class="status-dot" aria-hidden="true"></span>Available for work</p>
+    <h1 class="reveal" style="--delay:.08s">I build AI you can <em>see inside.</em></h1>
+    <p class="lead reveal" style="--delay:.16s">
       I'm <strong>Justin Jedidiah Sunarko</strong>, an AI &amp; data engineer working on agents, retrieval and analytics.
       Every project here shows its reasoning: the sections it read, the numbers it pulled, the chunks it scored.
     </p>
-    <div class="actions">
+    <div class="actions reveal" style="--delay:.24s">
       <a class="btn btn-primary" href="#work">
         See the work
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
@@ -344,7 +354,7 @@
         <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
       </a>
     </div>
-    <ul class="focus" aria-label="Focus areas">
+    <ul class="focus reveal" style="--delay:.32s" aria-label="Focus areas">
       <li>LLM agents</li>
       <li>Retrieval (RAG)</li>
       <li>Data pipelines</li>
@@ -353,14 +363,14 @@
   </header>
 
   <section id="work" class="wrap" aria-labelledby="work-title">
-    <div class="section-head">
+    <div class="section-head reveal">
       <p class="label">// Selected work</p>
       <h2 id="work-title">Projects that <em>show their reasoning.</em></h2>
     </div>
 
     <!-- toc-rag -->
     <article class="case">
-      <div class="case-media">
+      <div class="case-media reveal">
         <a class="browser" href="https://toc-rag.up.railway.app/" target="_blank" rel="noopener noreferrer" aria-label="Open the TOC-RAG live demo">
           <div class="browser-bar" aria-hidden="true">
             <div class="browser-dots"><i></i><i></i><i></i></div>
@@ -371,7 +381,7 @@
           </div>
         </a>
       </div>
-      <div class="case-body">
+      <div class="case-body reveal" style="--delay:.1s">
         <p class="case-kicker"><b>01</b> Agentic retrieval</p>
         <h3>TOC-RAG</h3>
         <p class="hook">Retrieval without vectors. Instead of chunking and embedding, it reads a document the way a person would: through its table of contents.</p>
@@ -392,7 +402,7 @@
 
     <!-- claritree -->
     <article class="case case--flip">
-      <div class="case-media">
+      <div class="case-media reveal">
         <a class="browser" href="https://claritree.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Open the claritree live demo">
           <div class="browser-bar" aria-hidden="true">
             <div class="browser-dots"><i></i><i></i><i></i></div>
@@ -403,7 +413,7 @@
           </div>
         </a>
       </div>
-      <div class="case-body">
+      <div class="case-body reveal" style="--delay:.1s">
         <p class="case-kicker"><b>02</b> AI financial analyst</p>
         <h3>claritree</h3>
         <p class="hook">Most financial tools let you query data. claritree lets you understand it: a P&amp;L as an interactive calculation tree, with an AI analyst beside it.</p>
@@ -424,7 +434,7 @@
 
     <!-- rag-explorer -->
     <article class="case">
-      <div class="case-media">
+      <div class="case-media reveal">
         <a class="browser" href="https://github.com/justinjedidiah/rag-explorer" target="_blank" rel="noopener noreferrer" aria-label="Open the rag-explorer repository">
           <div class="browser-bar" aria-hidden="true">
             <div class="browser-dots"><i></i><i></i><i></i></div>
@@ -435,7 +445,7 @@
           </div>
         </a>
       </div>
-      <div class="case-body">
+      <div class="case-body reveal" style="--delay:.1s">
         <p class="case-kicker"><b>03</b> RAG evaluation lab</p>
         <h3>rag-explorer</h3>
         <p class="hook">Every RAG pipeline has a dozen knobs. rag-explorer lets you turn them one at a time and see exactly what changes.</p>
@@ -455,14 +465,14 @@
   </section>
 
   <section id="ml" class="wrap" aria-labelledby="ml-title">
-    <div class="section-head">
+    <div class="section-head reveal">
       <p class="label">// Machine learning</p>
       <h2 id="ml-title">Models and <em>experiments.</em></h2>
     </div>
 
     <div class="ml-grid">
       <!-- telco churn -->
-      <article class="ml-card">
+      <article class="ml-card reveal">
         <div class="ml-visual" aria-hidden="true">
           <svg viewBox="0 0 100 100" fill="none" stroke-linecap="round">
             <path d="M50 18 L28 46 M50 18 L72 46 M28 46 L16 76 M28 46 L40 76 M72 46 L60 76 M72 46 L84 76" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
@@ -489,7 +499,7 @@
   </section>
 
   <section id="contact" class="wrap" aria-labelledby="contact-title">
-    <div class="contact">
+    <div class="contact reveal">
       <p class="label">// Contact</p>
       <h2 id="contact-title">Let's build something <em>useful.</em></h2>
       <p>I'm open to AI and data engineering roles and collaborations. Email is the fastest way to reach me.</p>
@@ -514,5 +524,21 @@
   </div>
 </footer>
 
+<script>
+  // Fade sections in as they scroll into view
+  (function () {
+    var els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      els.forEach(function (el) { el.classList.add('is-visible'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  })();
+</script>
 </body>
 </html>
