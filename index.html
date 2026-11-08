@@ -340,6 +340,15 @@
   .d6 { animation-delay: 0.55s; }
   .d7 { animation-delay: 0.65s; }
 
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .animate { opacity: 1; animation: none; }
+    .card::after { display: none; }
+    *, *::before, *::after { transition: none !important; }
+  }
+
+  a:focus-visible { outline: 1px solid var(--accent); outline-offset: 3px; }
+
   /* Mobile */
   @media (max-width: 640px) {
     main { padding: 48px 20px 80px; }
@@ -355,8 +364,8 @@
 </head>
 <body>
 
-<div class="glow glow-1"></div>
-<div class="glow glow-2"></div>
+<div class="glow glow-1" aria-hidden="true"></div>
+<div class="glow glow-2" aria-hidden="true"></div>
 
 <main>
   <header>
@@ -366,16 +375,16 @@
       I'm an AI & data engineer interested in how we can use LLMs and data to make useful things. Just looking for better ways to solve problems.
     </p>
     <div class="links animate d4">
-      <a href="https://github.com/justinjedidiah" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+      <a href="https://github.com/justinjedidiah" target="_blank" rel="noopener noreferrer">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
         github.com/justinjedidiah
       </a>
-      <a href="https://www.linkedin.com/in/justinjedidiahsunarko/" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+      <a href="https://www.linkedin.com/in/justinjedidiahsunarko/" target="_blank" rel="noopener noreferrer">
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
         linkedin.com/in/justinjedidiahsunarko
       </a>
       <a href="mailto:justin.jedidiah@gmail.com">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
         justin.jedidiah@gmail.com
       </a>
     </div>
@@ -390,7 +399,7 @@
     <div class="card card-wide">
       <span class="card-index">01</span>
       <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M8 12h12M12 18h8M4 6v12m0-6h4m0 0v6h4"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M8 12h12M12 18h8M4 6v12m0-6h4m0 0v6h4"/></svg>
       </div>
       <h2>TOC-RAG</h2>
       <p>Retrieval without vectors. Documents are indexed as a table-of-contents tree, and an AI agent navigates it section by section to answer questions, citing only what it actually read.</p>
@@ -399,8 +408,8 @@
           <span class="dot dot-py"></span>Python
         </div>
         <div style="display:flex; gap:16px;">
-          <a href="https://toc-rag.up.railway.app/" target="_blank" class="arrow-link">Live demo ↗</a>
-          <a href="https://github.com/justinjedidiah/TOC-RAG" target="_blank" class="arrow-link">View repo →</a>
+          <a href="https://toc-rag.up.railway.app/" target="_blank" rel="noopener noreferrer" class="arrow-link">Live demo ↗</a>
+          <a href="https://github.com/justinjedidiah/TOC-RAG" target="_blank" rel="noopener noreferrer" class="arrow-link">View repo →</a>
         </div>
       </div>
     </div>
@@ -409,7 +418,7 @@
     <div class="card">
       <span class="card-index">02</span>
       <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
       </div>
       <h2>claritree</h2>
       <p>An interactive financial calculation tree paired with an AI analyst. Visualize complex financial models while getting live AI-driven insights and annotations.</p>
@@ -419,8 +428,8 @@
           <span class="dot dot-py"></span>Python
         </div>
         <div style="display:flex; gap:16px;">
-          <a href="https://claritree.vercel.app" target="_blank" class="arrow-link" >Live demo ↗</a>
-          <a href="https://github.com/justinjedidiah/claritree" target="_blank" class="arrow-link">View repo →</a>
+          <a href="https://claritree.vercel.app" target="_blank" rel="noopener noreferrer" class="arrow-link" >Live demo ↗</a>
+          <a href="https://github.com/justinjedidiah/claritree" target="_blank" rel="noopener noreferrer" class="arrow-link">View repo →</a>
         </div>
       </div>
     </div>
@@ -429,7 +438,7 @@
     <div class="card">
       <span class="card-index">03</span>
       <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
       </div>
       <h2>rag-explorer</h2>
       <p>Try every RAG configuration and find the best one for your needs. A systematic evaluation framework for retrieval-augmented generation setups. Compare chunking strategies, embedding models, retrieval methods, and re-ranking approaches side by side.</p>
@@ -437,7 +446,7 @@
         <div class="lang-badge">
           <span class="dot dot-py"></span>Python
         </div>
-        <a class="arrow-link" href="https://github.com/justinjedidiah/rag-explorer" target="_blank">View repo →</a>
+        <a class="arrow-link" href="https://github.com/justinjedidiah/rag-explorer" target="_blank" rel="noopener noreferrer">View repo →</a>
       </div>
     </div>
 
@@ -445,7 +454,7 @@
     <div class="card card-wide">
       <span class="card-index">04</span>
       <div class="card-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
       </div>
       <h2>telco-churn</h2>
       <p>Predicting customer churn for a fictional telco company using neural networks and XGBoost. Full data science pipeline from EDA to deployment-ready models.</p>
@@ -453,7 +462,7 @@
         <div class="lang-badge">
           <span class="dot dot-jup"></span>Jupyter Notebook
         </div>
-        <a class="arrow-link" href="https://github.com/justinjedidiah/telco-churn-data-science" target="_blank">View repo →</a>
+        <a class="arrow-link" href="https://github.com/justinjedidiah/telco-churn-data-science" target="_blank" rel="noopener noreferrer">View repo →</a>
       </div>
     </div>
   </div>
@@ -480,8 +489,8 @@
   <footer>
     <span>© 2026 Justin Jedidiah Sunarko</span>
     <div class="footer-links">
-      <a href="https://github.com/justinjedidiah" target="_blank">GitHub</a>
-      <a href="https://www.linkedin.com/in/justinjedidiahsunarko/" target="_blank">LinkedIn</a>
+      <a href="https://github.com/justinjedidiah" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="https://www.linkedin.com/in/justinjedidiahsunarko/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="mailto:justin.jedidiah@gmail.com">Email</a>
     </div>
   </footer>
