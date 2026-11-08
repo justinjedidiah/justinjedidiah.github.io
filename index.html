@@ -460,20 +460,20 @@
 
   <div class="stats animate d7">
     <div class="stat">
-      <span class="stat-val">4</span>
-      <span class="stat-label">Public Repos</span>
+      <span class="stat-val">Agents</span>
+      <span class="stat-label">LLM tool use</span>
     </div>
     <div class="stat">
-      <span class="stat-val">3</span>
-      <span class="stat-label">Languages</span>
+      <span class="stat-val">RAG</span>
+      <span class="stat-label">Retrieval systems</span>
     </div>
     <div class="stat">
-      <span class="stat-val">AI</span>
-      <span class="stat-label">Focus Area</span>
+      <span class="stat-val">Data</span>
+      <span class="stat-label">Pipelines &amp; analytics</span>
     </div>
     <div class="stat">
-      <span class="stat-val">Open</span>
-      <span class="stat-label">To Collab</span>
+      <span class="stat-val">ML</span>
+      <span class="stat-label">Predictive models</span>
     </div>
   </div>
 
@@ -487,33 +487,5 @@
   </footer>
 </main>
 
-<script>
-  // Animate stats counter
-  function animateCount(el, target, suffix = '') {
-    if (isNaN(target)) return;
-    let start = 0;
-    const step = () => {
-      start += Math.ceil((target - start) / 6);
-      el.textContent = start + suffix;
-      if (start < target) requestAnimationFrame(step);
-      else el.textContent = target + suffix;
-    };
-    requestAnimationFrame(step);
-  }
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.querySelectorAll('.stat-val').forEach(el => {
-          const v = parseInt(el.textContent);
-          animateCount(el, v);
-        });
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.5 });
-
-  document.querySelector('.stats') && observer.observe(document.querySelector('.stats'));
-</script>
 </body>
 </html>
