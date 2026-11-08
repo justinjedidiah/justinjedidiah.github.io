@@ -31,34 +31,7 @@
     font-size: 14px;
     min-height: 100vh;
     overflow-x: hidden;
-    cursor: none;
   }
-  a { cursor: none; }
-
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    width: 10px; height: 10px;
-    background: var(--accent);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
-    mix-blend-mode: screen;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1px solid rgba(200,181,255,0.4);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.18s ease, width 0.3s, height 0.3s;
-  }
-  .cursor.hovered { width: 6px; height: 6px; background: var(--accent2); }
-  .cursor-ring.hovered { width: 52px; height: 52px; border-color: rgba(255,159,126,0.5); }
 
   /* Grid noise overlay */
   body::before {
@@ -190,7 +163,6 @@
     color: inherit;
     display: block;
     transition: border-color 0.3s;
-    cursor: none;
   }
 
   .card::before {
@@ -285,7 +257,6 @@
     align-items: center;
     gap: 4px;
     transition: color 0.2s;
-    cursor: none;
   }
   .card .arrow-link:hover { color: var(--accent); }
 
@@ -364,16 +335,9 @@
     footer { flex-direction: column; gap: 12px; align-items: flex-start; }
     h1 { font-size: 48px; }
   }
-  @media (hover: none) {
-    .cursor, .cursor-ring { display: none; }
-    body { cursor: auto; }
-  }
 </style>
 </head>
 <body>
-
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <div class="glow glow-1"></div>
 <div class="glow glow-2"></div>
@@ -499,49 +463,6 @@
 </main>
 
 <script>
-  // Cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
-
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  // replace the existing querySelectorAll listener block with this
-  document.querySelectorAll('a').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      cursor.classList.add('hovered');
-      ring.classList.add('hovered');
-    });
-    el.addEventListener('mouseleave', e => {
-      // don't remove if moving to a child or parent that's also hoverable
-      if (!e.relatedTarget?.closest('a')) {
-        cursor.classList.remove('hovered');
-        ring.classList.remove('hovered');
-      }
-    });
-  });
-
-  // Hide cursor when leaving window
-  document.addEventListener('mouseleave', () => {
-    cursor.style.opacity = '0'; ring.style.opacity = '0';
-  });
-  document.addEventListener('mouseenter', () => {
-    cursor.style.opacity = '1'; ring.style.opacity = '1';
-  });
-
   // Animate stats counter
   function animateCount(el, target, suffix = '') {
     if (isNaN(target)) return;
