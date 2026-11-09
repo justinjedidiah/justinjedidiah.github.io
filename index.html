@@ -164,6 +164,12 @@
   .toc .sub { margin-left: 14px; padding-left: 10px; border-left: 1px solid var(--edge); margin-top: 2px; }
   .toc .sub a { font-size: 13.5px; }
   .toc .sub a .n { min-width: 26px; }
+  .toc .sub a.grp {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--faint); padding-top: 8px; padding-bottom: 2px; background: none;
+  }
+  .toc .sub > li:first-child > a.grp { padding-top: 4px; }
+  .toc .sub a.grp.active { color: var(--accent); background: none; }
 
   /* ---------- Hero ---------- */
   .hero { padding: 104px 0 96px; }
@@ -189,6 +195,14 @@
   .section-head .n { font-family: var(--mono); font-size: 14px; color: var(--accent); }
   .section-head h2 { font-size: clamp(32px, 4.4vw, 44px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; }
 
+  .group + .group { margin-top: 56px; }
+  .group-head {
+    display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+    font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .group-head::after { content: ''; flex: 1; height: 1px; background: var(--edge); }
+
   .card { border-radius: 20px; padding: 14px; margin-bottom: 28px; }
   .shot { display: block; border-radius: 12px; overflow: hidden; border: 1px solid var(--edge); background: #fff; }
   .shot img { transition: transform 0.5s cubic-bezier(.2,.7,.2,1); }
@@ -196,7 +210,7 @@
   .card-body { padding: 22px 14px 10px; }
   .card-meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--faint); margin-bottom: 8px; }
   .card-meta b { color: var(--accent); font-weight: 500; }
-  .card h3 { font-size: 30px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 10px; }
+  .card h4 { font-size: 30px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.15; margin-bottom: 10px; }
   .hook { font-size: 17px; line-height: 1.6; margin-bottom: 16px; }
   .points { list-style: none; margin-bottom: 20px; }
   .points li { position: relative; padding-left: 22px; margin-bottom: 8px; color: var(--muted); font-size: 15px; }
@@ -249,7 +263,7 @@
     .section { padding: 24px 0 48px; }
     .card { padding: 10px; border-radius: 16px; }
     .card-body { padding: 18px 8px 6px; }
-    .card h3 { font-size: 26px; }
+    .card h4 { font-size: 26px; }
     .split { grid-template-columns: 1fr; padding: 4px; }
     .split figure { max-width: 280px; }
     .contact { padding: 40px 22px; border-radius: 18px; }
@@ -295,7 +309,7 @@
         I'm <strong>Justin Jedidiah Sunarko</strong>, an AI &amp; data engineer working on LLM agents, retrieval and machine learning. Here are a few things I've built.
       </p>
       <div class="actions reveal">
-        <a class="btn btn-primary" href="#llm">
+        <a class="btn btn-primary" href="#projects">
           See projects
           <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
         </a>
@@ -303,9 +317,13 @@
       </div>
     </section>
 
-    <!-- 1. LLM & Agents -->
-    <section id="llm" class="section" aria-labelledby="llm-title">
-      <div class="section-head reveal"><span class="n">1</span><h2 id="llm-title">LLM &amp; Agents</h2></div>
+    <!-- 1. Projects -->
+    <section id="projects" class="section" aria-labelledby="projects-title">
+      <div class="section-head reveal"><span class="n">1</span><h2 id="projects-title">Projects</h2></div>
+
+      <!-- LLM & Agents -->
+      <div id="llm" class="group" role="group" aria-labelledby="llm-title">
+      <h3 class="group-head reveal" id="llm-title">LLM &amp; Agents</h3>
 
       <!-- toc-rag -->
       <article id="toc-rag" class="card glass reveal">
@@ -314,7 +332,7 @@
         </a>
         <div class="card-body">
           <div class="card-meta"><span><b>1.1</b> Agentic retrieval</span><span>Live</span></div>
-          <h3>TOC-RAG</h3>
+          <h4>TOC-RAG</h4>
           <p class="hook">Retrieval without vectors. Instead of chunking and embedding, it reads a document the way a person would: through its table of contents.</p>
           <ul class="points">
             <li>Builds a section tree from Word headings, PDF bookmarks or the printed contents page, then summarizes each section</li>
@@ -338,7 +356,7 @@
         </a>
         <div class="card-body">
           <div class="card-meta"><span><b>1.2</b> AI financial analyst</span><span>Live</span></div>
-          <h3>claritree</h3>
+          <h4>claritree</h4>
           <p class="hook">Most financial tools let you query data. claritree lets you understand it: a P&amp;L as an interactive calculation tree, with an AI analyst beside it.</p>
           <ul class="points">
             <li>Every metric, formula and dependency is a node you can trace upstream or downstream</li>
@@ -362,7 +380,7 @@
         </a>
         <div class="card-body">
           <div class="card-meta"><span><b>1.3</b> RAG chatbot &amp; test bench</span><span>Runs locally</span></div>
-          <h3>rag-explorer</h3>
+          <h4>rag-explorer</h4>
           <p class="hook">Every RAG pipeline has a dozen knobs. rag-explorer lets you chat with your PDF while turning them one at a time to see what changes.</p>
           <ul class="points">
             <li>Fixed, semantic and hierarchical chunking; MiniLM, BGE or OpenAI embeddings, or BM25</li>
@@ -377,18 +395,18 @@
           </div>
         </div>
       </article>
-    </section>
+      </div>
 
-    <!-- 2. Machine learning -->
-    <section id="ml" class="section" aria-labelledby="ml-title">
-      <div class="section-head reveal"><span class="n">2</span><h2 id="ml-title">Machine learning</h2></div>
+      <!-- Machine learning -->
+      <div id="ml" class="group" role="group" aria-labelledby="ml-title">
+      <h3 class="group-head reveal" id="ml-title">Machine learning</h3>
 
       <!-- telco churn -->
       <article id="telco-churn" class="card glass reveal">
         <div class="split">
           <div class="card-body">
-            <div class="card-meta"><span><b>2.1</b> Churn prediction</span><span>Notebook</span></div>
-            <h3>telco-churn</h3>
+            <div class="card-meta"><span><b>1.4</b> Churn prediction</span><span>Notebook</span></div>
+            <h4>telco-churn</h4>
             <p class="hook">Which of 7,043 telco customers are about to leave, and why? A full pipeline from data checks and EDA to tuned models, comparing logistic regression, a neural network and XGBoost.</p>
             <ul class="points">
               <li>Contract strength, tenure and internet service type came out as the strongest churn drivers</li>
@@ -410,12 +428,13 @@
           </figure>
         </div>
       </article>
+      </div>
     </section>
 
-    <!-- 3. Contact -->
+    <!-- 2. Contact -->
     <section id="contact" class="section" aria-labelledby="contact-title">
       <div class="contact glass reveal">
-        <div class="section-head" style="margin-bottom:18px"><span class="n">3</span></div>
+        <div class="section-head" style="margin-bottom:18px"><span class="n">2</span></div>
         <h2 id="contact-title">Let's <span>talk.</span></h2>
         <p>I'm open to AI and data engineering roles and collaborations. Email is the fastest way to reach me.</p>
         <div class="actions">
@@ -432,20 +451,25 @@
     <div class="toc-progress" aria-hidden="true"><i></i></div>
     <ol class="top-level">
       <li>
-        <a href="#llm"><span class="n">1</span>LLM &amp; Agents</a>
+        <a href="#projects"><span class="n">1</span>Projects</a>
         <ol class="sub">
-          <li><a href="#toc-rag"><span class="n">1.1</span>TOC-RAG</a></li>
-          <li><a href="#claritree"><span class="n">1.2</span>claritree</a></li>
-          <li><a href="#rag-explorer"><span class="n">1.3</span>rag-explorer</a></li>
+          <li>
+            <a class="grp" href="#llm">LLM &amp; Agents</a>
+            <ol>
+              <li><a href="#toc-rag"><span class="n">1.1</span>TOC-RAG</a></li>
+              <li><a href="#claritree"><span class="n">1.2</span>claritree</a></li>
+              <li><a href="#rag-explorer"><span class="n">1.3</span>rag-explorer</a></li>
+            </ol>
+          </li>
+          <li>
+            <a class="grp" href="#ml">Machine learning</a>
+            <ol>
+              <li><a href="#telco-churn"><span class="n">1.4</span>telco-churn</a></li>
+            </ol>
+          </li>
         </ol>
       </li>
-      <li>
-        <a href="#ml"><span class="n">2</span>Machine learning</a>
-        <ol class="sub">
-          <li><a href="#telco-churn"><span class="n">2.1</span>telco-churn</a></li>
-        </ol>
-      </li>
-      <li><a href="#contact"><span class="n">3</span>Let's talk</a></li>
+      <li><a href="#contact"><span class="n">2</span>Let's talk</a></li>
     </ol>
   </nav>
 </div>
@@ -493,8 +517,12 @@
     links.forEach(function (a) { a.classList.remove('active'); });
     if (current >= 0) {
       links[current].classList.add('active');
-      var parent = links[current].closest('.sub');
-      if (parent) parent.parentElement.querySelector('a').classList.add('active');
+      var ol = links[current].closest('ol');
+      while (ol && !ol.classList.contains('top-level')) {
+        var li = ol.parentElement, head = li && li.querySelector('a');
+        if (head) head.classList.add('active');
+        ol = li ? li.closest('ol') : null;
+      }
     }
     if (terrainSvg) terrainSvg.style.transform = 'translate3d(0,' + (-y * PARALLAX) + 'px,0)';
   }
