@@ -205,6 +205,7 @@
 
   .card { border-radius: 20px; padding: 14px; margin-bottom: 28px; }
   .shot { display: block; border-radius: 12px; overflow: hidden; border: 1px solid var(--edge); background: #fff; }
+  .shot video { display: block; width: 100%; height: auto; cursor: pointer; }
   .shot img { transition: transform 0.5s cubic-bezier(.2,.7,.2,1); }
   a.shot:hover img { transform: scale(1.015); }
   .card-body { padding: 22px 14px 10px; }
@@ -375,20 +376,22 @@
 
       <!-- rag-explorer -->
       <article id="rag-explorer" class="card glass reveal">
-        <a class="shot" href="https://github.com/justinjedidiah/rag-explorer" target="_blank" rel="noopener noreferrer" aria-label="Open the rag-explorer repository">
-          <img src="img/rag-explorer.png" width="1857" height="846" loading="lazy" alt="rag-explorer interface: RAG configuration settings in a sidebar, a chat answer with retrieved chunks ranked by score, and a debug panel listing each chunk with its page and score.">
-        </a>
+        <div class="shot">
+          <video controls muted playsinline preload="none" width="1440" height="810" poster="img/rag-explorer-poster.png" aria-label="One-minute rag-explorer demo: uploading and indexing a PDF, asking a question with cited pages, inspecting retrieved chunks and scores in the debug panel, then switching on reranking and comparing the scores.">
+            <source src="img/rag-explorer-demo.mp4" type="video/mp4">
+          </video>
+        </div>
         <div class="card-body">
-          <div class="card-meta"><span><b>1.3</b> RAG chatbot &amp; test bench</span><span>Runs locally</span></div>
+          <div class="card-meta"><span><b>1.3</b> RAG chatbot &amp; test bench</span><span>1-min demo · runs locally</span></div>
           <h4>rag-explorer</h4>
           <p class="hook">Every RAG pipeline has a dozen knobs. rag-explorer lets you chat with your PDF while turning them one at a time to see what changes.</p>
           <ul class="points">
-            <li>Fixed, semantic and hierarchical chunking; MiniLM, BGE or OpenAI embeddings, or BM25</li>
-            <li>Query rewriting, HyDE, and decomposition into sub-questions</li>
-            <li>A debug panel shows every retrieved chunk with its score, page and the sub-question that found it</li>
+            <li>Fixed, semantic and hierarchical chunking; dense, BM25 or hybrid search, with optional cross-encoder reranking</li>
+            <li>Query rewriting, HyDE and decomposition before retrieval; corrective RAG and contextual compression after it</li>
+            <li>A debug panel shows every retrieved chunk with its page and score, the tokens each step used, and a log of which steps ran</li>
           </ul>
           <div class="card-foot">
-            <ul class="chips" aria-label="Tech stack"><li>Python</li><li>Streamlit</li><li>ChromaDB</li><li>sentence-transformers</li><li>BM25</li></ul>
+            <ul class="chips" aria-label="Tech stack"><li>Python</li><li>Streamlit</li><li>sentence-transformers</li><li>BM25</li><li>Claude · GPT</li></ul>
             <div class="links">
               <a class="btn btn-glass" href="https://github.com/justinjedidiah/rag-explorer" target="_blank" rel="noopener noreferrer">Code</a>
             </div>
@@ -586,6 +589,16 @@
   }, { passive: true });
   addEventListener('load', drawTerrain);
   onScroll();
+
+  /* ---------- Click anywhere on a video to play or pause ---------- */
+  document.querySelectorAll('.shot video').forEach(function (v) {
+    v.addEventListener('click', function (e) {
+      // leave the bottom strip to the browser's own control bar
+      if (e.clientY > v.getBoundingClientRect().bottom - 64) return;
+      e.preventDefault(); // stops browsers that already toggle on click from doing it twice
+      if (v.paused) v.play(); else v.pause();
+    });
+  });
 
   /* ---------- Reveal on scroll ---------- */
   var els = document.querySelectorAll('.reveal');
