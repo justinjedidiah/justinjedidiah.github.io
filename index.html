@@ -446,10 +446,29 @@
 
       <!-- rag-explorer -->
       <article id="rag-explorer" class="card glass reveal">
-        <div class="shot">
+        <div class="shot carousel" role="region" aria-roledescription="carousel" aria-label="rag-explorer demo video and screenshots">
+          <div class="track">
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="1 of 5">
           <video controls muted playsinline preload="none" width="1440" height="810" poster="img/rag-explorer-poster.png" aria-label="One-minute rag-explorer demo: uploading and indexing a PDF, asking a question with cited pages, inspecting retrieved chunks and scores in the debug panel, then switching on reranking and comparing the scores.">
             <source src="img/rag-explorer-demo.mp4" type="video/mp4">
           </video>
+          </div>
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="2 of 5">
+            <img src="img/rag-explorer-citation.jpg" width="1440" height="810" loading="lazy" alt="Every answer cites its source pages: a chat answer with a source list showing pages 22, 28, 89, 90 and 91, next to the debug panel.">
+          </div>
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="3 of 5">
+            <img src="img/rag-explorer-debug.jpg" width="1440" height="810" loading="lazy" alt="The debug panel shows chunks and scores: retrieved chunks listed with their page numbers, cosine scores and text.">
+          </div>
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="4 of 5">
+            <img src="img/rag-explorer-rerank.jpg" width="1440" height="810" loading="lazy" alt="Change a setting, like reranking: the cross-encoder reranking switch being turned on in the sidebar's question settings.">
+          </div>
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="5 of 5">
+            <img src="img/rag-explorer-log.jpg" width="1440" height="810" loading="lazy" alt="The process log lists every step that ran: query strategy, dense retrieval, reranker, and the steps that were disabled.">
+          </div>
+          </div>
+          <button class="car-btn prev" type="button" aria-label="Previous slide" disabled><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="car-btn next" type="button" aria-label="Next slide"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+          <span class="car-count" aria-hidden="true">1 / 5</span>
         </div>
         <div class="card-body">
           <div class="card-meta"><span><b>1.3</b> RAG chatbot &amp; test bench</span><span>1-min demo · runs locally</span></div>
