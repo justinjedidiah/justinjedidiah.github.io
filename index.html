@@ -206,8 +206,47 @@
   .card { border-radius: 20px; padding: 14px; margin-bottom: 28px; }
   .shot { display: block; border-radius: 12px; overflow: hidden; border: 1px solid var(--edge); background: #fff; }
   .shot video { display: block; width: 100%; height: auto; cursor: pointer; }
+  .shot:has(> video) { position: relative; }
+  /* Big play button over a paused video, so it reads as a video at a glance */
+  .vid-play {
+    position: absolute; left: 50%; top: 50%; width: 72px; height: 72px; margin: -36px 0 0 -36px;
+    display: grid; place-items: center; border: 0; border-radius: 50%; cursor: pointer;
+    background: rgba(17, 20, 24, 0.62); color: #fff; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.28);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    transition: opacity 0.2s, transform 0.2s, background-color 0.2s;
+  }
+  .vid-play:hover { transform: scale(1.06); background: rgba(17, 20, 24, 0.78); }
+  .vid-play:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .vid-play svg { width: 28px; height: 28px; }
+  .vid-play.is-hidden { opacity: 0; pointer-events: none; }
   .shot img { transition: transform 0.5s cubic-bezier(.2,.7,.2,1); }
   a.shot:hover img { transform: scale(1.015); }
+  /* Carousel: the demo video first, then screenshots, swiped or stepped with arrows */
+  .carousel { position: relative; }
+  .carousel .track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+  .carousel .track::-webkit-scrollbar { display: none; }
+  .carousel .slide { flex: 0 0 100%; scroll-snap-align: start; position: relative; }
+  .carousel .slide img { display: block; width: 100%; height: auto; }
+  .carousel figcaption {
+    position: absolute; left: 12px; bottom: 12px; padding: 5px 10px; border-radius: 8px;
+    background: rgba(17, 20, 24, 0.72); color: #fff; font-size: 13px; line-height: 1.3;
+  }
+  .car-btn, .car-count { display: none; }
+  .js .car-btn {
+    display: grid; place-items: center; position: absolute; top: 50%; width: 38px; height: 38px; margin-top: -19px;
+    border-radius: 50%; border: 0; background: rgba(255, 255, 255, 0.92); color: #111418; cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22); transition: opacity 0.2s, transform 0.2s;
+  }
+  .js .car-btn:hover { transform: scale(1.06); }
+  .js .car-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .js .car-btn:disabled { opacity: 0; pointer-events: none; }
+  .car-btn svg { width: 18px; height: 18px; }
+  .car-btn.prev { left: 12px; }
+  .car-btn.next { right: 12px; }
+  .js .car-count {
+    display: block; position: absolute; top: 12px; right: 12px; padding: 3px 9px; border-radius: 999px;
+    background: rgba(17, 20, 24, 0.72); color: #fff; font: 500 11.5px var(--mono); pointer-events: none;
+  }
   .card-body { padding: 22px 14px 10px; }
   .card-meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--faint); margin-bottom: 8px; }
   .card-meta b { color: var(--accent); font-weight: 500; }
@@ -265,6 +304,12 @@
     .card { padding: 10px; border-radius: 16px; }
     .card-body { padding: 18px 8px 6px; }
     .card h4 { font-size: 26px; }
+    .vid-play { width: 56px; height: 56px; margin: -28px 0 0 -28px; }
+    .vid-play svg { width: 22px; height: 22px; }
+    .js .car-btn { width: 32px; height: 32px; margin-top: -16px; }
+    .car-btn.prev { left: 8px; }
+    .car-btn.next { right: 8px; }
+    .carousel figcaption { left: 8px; bottom: 8px; font-size: 12px; }
     .split { grid-template-columns: 1fr; padding: 4px; }
     .split figure { max-width: 280px; }
     .contact { padding: 40px 22px; border-radius: 18px; }
@@ -328,11 +373,36 @@
 
       <!-- toc-rag -->
       <article id="toc-rag" class="card glass reveal">
-        <a class="shot" href="https://toc-rag.up.railway.app/" target="_blank" rel="noopener noreferrer" aria-label="Open the TOC-RAG live demo">
-          <img src="img/toc-rag.png" width="1440" height="900" alt="TOC-RAG interface: a document library on the left, sample questions in the middle, and a source panel showing the 'Life Support' section with its summary and a bar chart on the right.">
-        </a>
+        <div class="shot carousel" role="region" aria-roledescription="carousel" aria-label="TOC-RAG demo video and screenshots">
+          <div class="track">
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="1 of 5">
+          <video controls muted playsinline preload="none" width="1280" height="720" poster="img/toc-rag-poster.jpg" aria-label="90-second TOC-RAG demo: browsing a document's outline, asking a question while the agent navigates the sections, opening the cited source, getting a chart back inline, then uploading a new document, checking the indexing cost and asking about it.">
+            <source src="img/toc-rag-demo.mp4" type="video/mp4">
+          </video>
+          </div>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 5">
+            <img src="img/toc-rag-outline.jpg" width="960" height="540" loading="lazy" alt="The outline panel listing the Fernhill Employee Handbook's sections, each with a short summary, next to the sample questions.">
+            <figcaption>Each document gets an outline</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 5">
+            <img src="img/toc-rag-citation.jpg" width="960" height="540" loading="lazy" alt="An answer showing the sections the agent opened and read, with a citation that opens the 'Revenue by segment' section in the source panel.">
+            <figcaption>Every answer cites its source</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="4 of 5">
+            <img src="img/toc-rag-chart.jpg" width="960" height="540" loading="lazy" alt="A revenue by segment and quarter bar chart returned with an answer, opened full size with its generated description underneath.">
+            <figcaption>Ask for a chart, get the chart</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="5 of 5">
+            <img src="img/toc-rag-cost.jpg" width="960" height="540" loading="lazy" alt="Dialog before indexing an uploaded handbook, showing the preset, model, number of sections, model calls and estimated tokens.">
+            <figcaption>See the cost before you index</figcaption>
+          </figure>
+          </div>
+          <button class="car-btn prev" type="button" aria-label="Previous slide" disabled><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="car-btn next" type="button" aria-label="Next slide"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+          <span class="car-count" aria-hidden="true">1 / 5</span>
+        </div>
         <div class="card-body">
-          <div class="card-meta"><span><b>1.1</b> Agentic retrieval</span><span>Live</span></div>
+          <div class="card-meta"><span><b>1.1</b> Agentic retrieval</span><span>90-sec demo · Live</span></div>
           <h4>TOC-RAG</h4>
           <p class="hook">Retrieval without vectors. Instead of chunking and embedding, it reads a document the way a person would: through its table of contents.</p>
           <ul class="points">
@@ -598,6 +668,37 @@
       e.preventDefault(); // stops browsers that already toggle on click from doing it twice
       if (v.paused) v.play(); else v.pause();
     });
+    // big play button, shown while paused
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'vid-play';
+    b.setAttribute('aria-label', 'Play video');
+    b.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 001.5.86l12.5-7.5a1 1 0 000-1.72L8.5 3.64A1 1 0 007 4.5z"/></svg>';
+    b.addEventListener('click', function () { v.play(); });
+    v.after(b);
+    var sync = function () { b.classList.toggle('is-hidden', !v.paused); };
+    ['play', 'pause', 'ended'].forEach(function (ev) { v.addEventListener(ev, sync); });
+  });
+
+  /* ---------- Carousels: arrows, counter, pause the video when it slides away ---------- */
+  document.querySelectorAll('.carousel').forEach(function (c) {
+    var track = c.querySelector('.track');
+    var n = track.children.length;
+    var prev = c.querySelector('.prev'), next = c.querySelector('.next'), count = c.querySelector('.car-count');
+    var current = function () { return Math.round(track.scrollLeft / track.clientWidth); };
+    var go = function (d) { track.scrollBy({ left: d * track.clientWidth, behavior: reduceMotion ? 'auto' : 'smooth' }); };
+    prev.addEventListener('click', function () { go(-1); });
+    next.addEventListener('click', function () { go(1); });
+    var update = function () {
+      var i = current();
+      prev.disabled = i <= 0;
+      next.disabled = i >= n - 1;
+      count.textContent = (i + 1) + ' / ' + n;
+      c.querySelectorAll('video').forEach(function (v) { if (i !== 0 && !v.paused) v.pause(); });
+    };
+    var t;
+    track.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(update, 60); }, { passive: true });
+    update();
   });
 
   /* ---------- Reveal on scroll ---------- */
