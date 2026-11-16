@@ -207,6 +207,7 @@
   .shot { display: block; border-radius: 12px; overflow: hidden; border: 1px solid var(--edge); background: #fff; }
   .shot video { display: block; width: 100%; height: auto; cursor: pointer; }
   .shot:has(> video) { position: relative; }
+  .vid-hit { position: absolute; left: 0; right: 0; top: 0; bottom: 64px; cursor: pointer; }
   /* Big play button over a paused video, so it reads as a video at a glance */
   .vid-play {
     position: absolute; left: 50%; top: 50%; width: 72px; height: 72px; margin: -36px 0 0 -36px;
@@ -681,12 +682,15 @@
 
   /* ---------- Click anywhere on a video to play or pause ---------- */
   document.querySelectorAll('.shot video').forEach(function (v) {
-    v.addEventListener('click', function (e) {
-      // leave the bottom strip to the browser's own control bar
-      if (e.clientY > v.getBoundingClientRect().bottom - 64) return;
-      e.preventDefault(); // stops browsers that already toggle on click from doing it twice
-      if (v.paused) v.play(); else v.pause();
-    });
+    // A transparent layer over the video catches clicks and taps. Mobile browsers
+    // keep taps on the video itself for their own controls, so a click handler
+    // on the video never runs there. The layer stops short of the bottom strip,
+    // which stays with the browser's control bar.
+    var hit = document.createElement('div');
+    hit.className = 'vid-hit';
+    hit.setAttribute('aria-hidden', 'true');
+    hit.addEventListener('click', function () { if (v.paused) v.play(); else v.pause(); });
+    v.after(hit);
     // big play button, shown while paused
     var b = document.createElement('button');
     b.type = 'button';
@@ -694,7 +698,7 @@
     b.setAttribute('aria-label', 'Play video');
     b.innerHTML = '<svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 001.5.86l12.5-7.5a1 1 0 000-1.72L8.5 3.64A1 1 0 007 4.5z"/></svg>';
     b.addEventListener('click', function () { v.play(); });
-    v.after(b);
+    hit.after(b);
     var sync = function () { b.classList.toggle('is-hidden', !v.paused); };
     ['play', 'pause', 'ended'].forEach(function (ev) { v.addEventListener(ev, sync); });
   });
