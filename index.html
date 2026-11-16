@@ -232,7 +232,48 @@
     position: absolute; left: 12px; bottom: 12px; padding: 5px 10px; border-radius: 8px;
     background: rgba(17, 20, 24, 0.72); color: #fff; font-size: 13px; line-height: 1.3;
   }
+  /* Deck variant: notebook screenshots fitted into a fixed frame, takeaway underneath */
+  .deck .slide { display: flex; flex-direction: column; background: #fff; }
+  .card-body + .deck { margin-top: 8px; }
+  .deck .frame { aspect-ratio: 16 / 9; overflow: hidden; display: grid; place-items: center; padding: 12px; }
+  .deck .frame > a { display: block; width: 100%; height: 100%; min-height: 0; cursor: zoom-in; }
+  .deck .frame img { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+  .deck figcaption {
+    position: static; flex: 1; padding: 14px 18px 16px; border-radius: 0;
+    background: #f4f6f6; color: #1d2327; font-size: 15px; line-height: 1.5; border-top: 1px solid #e3e7e7;
+  }
+  .deck .step { display: block; margin-bottom: 3px; font: 500 11.5px var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: #0b7a6e; }
+  .nb-table { border-collapse: collapse; font-size: 15px; color: #1d2327; min-width: min(560px, 100%); }
+  .nb-table caption { caption-side: top; text-align: left; font-size: 13px; color: #5b6466; padding-bottom: 10px; }
+  .nb-table th, .nb-table td { padding: 9px 14px; text-align: left; border-bottom: 1px solid #e3e7e7; }
+  .nb-table th { font-weight: 600; }
+  .nb-table td + td, .nb-table th + th { text-align: right; font-family: var(--mono); font-size: 14px; white-space: nowrap; }
+  .nb-table tbody tr:nth-child(odd) { background: #f6f7f7; }
+  .nb-table tr.best td { font-weight: 600; color: #0b7a6e; }
   .car-btn, .car-count { display: none; }
+
+  /* Lightbox: a deck screenshot at full size, on the same page */
+  .lightbox {
+    width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+    background: #0c0e10; color: #fff;
+  }
+  .lightbox::backdrop { background: transparent; }
+  .lightbox[open] { display: flex; flex-direction: column; }
+  .lb-bar { display: flex; align-items: center; gap: 12px; padding: 12px 16px; flex: none; }
+  .lb-cap { flex: 1; min-width: 0; font-size: 14px; line-height: 1.4; color: #e6e9ea; }
+  .lb-cap .step { display: block; font: 500 11px var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: #5eead4; }
+  .lb-btn {
+    flex: none; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; border: 0;
+    background: rgba(255, 255, 255, 0.12); color: #fff; cursor: pointer;
+  }
+  .lb-btn:hover { background: rgba(255, 255, 255, 0.22); }
+  .lb-btn:focus-visible { outline: 2px solid #5eead4; outline-offset: 2px; }
+  .lb-btn:disabled { opacity: 0.3; cursor: default; }
+  .lb-btn svg { width: 18px; height: 18px; }
+  .lb-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; padding: 0 16px 24px; }
+  html.lb-open, html.lb-open body { overflow: hidden; }
+  .lightbox { overscroll-behavior: contain; }
+  .lb-scroll img { display: block; width: 100%; max-width: 1440px; height: auto; margin: 0 auto; background: #fff; border-radius: 8px; }
   .js .car-btn {
     display: grid; place-items: center; position: absolute; top: 50%; width: 38px; height: 38px; margin-top: -19px;
     border-radius: 50%; border: 0; background: rgba(255, 255, 255, 0.92); color: #111418; cursor: pointer;
@@ -262,11 +303,6 @@
   .links { display: flex; gap: 8px; }
   .links .btn { height: 36px; padding: 0 14px; font-size: 13px; }
 
-  /* ML card: figure beside text */
-  .split { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 28px; align-items: start; padding: 10px 10px 4px; }
-  .split .card-body { padding: 12px 4px 6px; }
-  .split figure { margin-top: 8px; }
-  .split figcaption { font-size: 12px; color: var(--faint); margin-top: 8px; line-height: 1.5; }
 
   /* Contact */
   .contact { border-radius: 24px; padding: 56px 48px; }
@@ -311,8 +347,15 @@
     .car-btn.prev { left: 8px; }
     .car-btn.next { right: 8px; }
     .carousel figcaption { left: 8px; bottom: 8px; font-size: 12px; }
-    .split { grid-template-columns: 1fr; padding: 4px; }
-    .split figure { max-width: 280px; }
+    .deck figcaption { font-size: 14px; padding: 12px 14px 14px; }
+    .deck .frame { padding: 6px; aspect-ratio: 4 / 3; }
+    /* on phones, show screenshots large enough to read and let them pan */
+    .lb-scroll { padding: 0 8px 16px; }
+    .lb-scroll img { width: 1000px; max-width: none; margin: 0; }
+    .nb-table { font-size: 11.5px; line-height: 1.3; }
+    .nb-table caption { font-size: 11px; padding-bottom: 4px; }
+    .nb-table th, .nb-table td { padding: 4px 6px; }
+    .nb-table td + td, .nb-table th + th { font-size: 10.5px; }
     .contact { padding: 40px 22px; border-radius: 18px; }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -496,29 +539,89 @@
 
       <!-- telco churn -->
       <article id="telco-churn" class="card glass reveal">
-        <div class="split">
-          <div class="card-body">
-            <div class="card-meta"><span><b>1.4</b> Churn prediction</span><span>Notebook</span></div>
-            <h4>telco-churn</h4>
-            <p class="hook">Which of 7,043 telco customers are about to leave, and why? A full pipeline from data checks and EDA to tuned models, comparing logistic regression, a neural network and XGBoost.</p>
-            <ul class="points">
-              <li>Contract strength, tenure and internet service type came out as the strongest churn drivers</li>
-              <li>XGBoost beat the neural network, which is common on tabular data</li>
-              <li>Stratified k-fold, class weights for imbalance, Optuna tuning and SHAP explanations</li>
-            </ul>
-            <div class="card-foot">
-              <ul class="chips" aria-label="Tech stack"><li>PyTorch</li><li>XGBoost</li><li>Optuna</li><li>SHAP</li></ul>
-              <div class="links">
-                <a class="btn btn-glass" href="https://github.com/justinjedidiah/telco-churn-data-science" target="_blank" rel="noopener noreferrer">Notebook</a>
-              </div>
+        <div class="card-body">
+          <div class="card-meta"><span><b>1.4</b> Churn prediction</span><span>12-step walkthrough · Notebook</span></div>
+          <h4>telco-churn</h4>
+          <p class="hook">Which of 7,043 telco customers are about to leave, and why? A full pipeline from data checks and EDA to tuned models, comparing logistic regression, a neural network and XGBoost.</p>
+          <ul class="points">
+            <li>Contract strength, tenure and internet service type came out as the strongest churn drivers</li>
+            <li>All three models landed near 0.85 ROC-AUC. Tuned XGBoost edged ahead and was the one explained with SHAP</li>
+            <li>Stratified k-fold, class weights for imbalance, Optuna tuning and SHAP explanations</li>
+          </ul>
+          <div class="card-foot">
+            <ul class="chips" aria-label="Tech stack"><li>PyTorch</li><li>XGBoost</li><li>Optuna</li><li>SHAP</li></ul>
+            <div class="links">
+              <a class="btn btn-glass" href="https://github.com/justinjedidiah/telco-churn-data-science" target="_blank" rel="noopener noreferrer">Notebook</a>
             </div>
           </div>
-          <figure>
-            <a class="shot" href="https://github.com/justinjedidiah/telco-churn-data-science" target="_blank" rel="noopener noreferrer">
-              <img src="img/telco-shap.png" width="793" height="940" loading="lazy" alt="SHAP beeswarm plot for the XGBoost churn model. Contract strength, tenure and internet service type have the largest impact on predictions.">
-            </a>
-            <figcaption>SHAP values for the XGBoost model. Weak contracts and short tenure push predictions toward churn.</figcaption>
+        </div>
+        <div class="shot carousel deck" role="region" aria-roledescription="carousel" aria-label="telco-churn notebook walkthrough">
+          <div class="track">
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="1 of 12">
+            <div class="frame"><a href="img/telco-01-problem.webp"><img src="img/telco-01-problem.webp" width="1440" height="892" alt="Notebook cell plotting the churn distribution: 73.46% of customers stayed and 26.54% churned."></a></div>
+            <figcaption><span class="step">01 · The problem</span>7,043 telco customers, 26.5% of whom left. The classes are imbalanced, but not severely.</figcaption>
           </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 12">
+            <div class="frame"><a href="img/telco-02-datafix.webp"><img src="img/telco-02-datafix.webp" width="1440" height="914" loading="lazy" alt="Notebook cells showing that the 11 customers with blank TotalCharges all have a tenure of 0, then filling TotalCharges with each customer's MonthlyCharges."></a></div>
+            <figcaption><span class="step">02 · Data checks</span>The 11 blank TotalCharges all belonged to brand-new customers (tenure 0), so each was filled with that customer's monthly charge.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 12">
+            <div class="frame"><a href="img/telco-03-eda-num.webp"><img src="img/telco-03-eda-num.webp" width="1440" height="987" loading="lazy" alt="Density plots of tenure, monthly charges and total charges split by churn status, with notes underneath."></a></div>
+            <figcaption><span class="step">03 · EDA, numbers</span>Churners cluster at short tenure and higher monthly charges. Total charges barely separates the two groups.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="4 of 12">
+            <div class="frame"><a href="img/telco-04-eda-cat.webp"><img src="img/telco-04-eda-cat.webp" width="1440" height="1189" loading="lazy" alt="Grid of stacked bar charts showing the churn rate for each value of every categorical column."></a></div>
+            <figcaption><span class="step">04 · EDA, categories</span>Month-to-month contracts, fiber internet and electronic-check payments have the highest churn rates, above 40% each.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="5 of 12">
+            <div class="frame"><a href="img/telco-05-features-a.webp"><img src="img/telco-05-features-a.webp" width="1440" height="960" loading="lazy" alt="Feature engineering code, part 1: tenure stages, new and loyal customer flags, average monthly charge, charge ratio, high spender flag, internet service type and service counts."></a></div>
+            <figcaption><span class="step">05 · Features, part 1</span>From tenure, charges and services: tenure stages, a charge ratio, a high-spender flag and counts of the add-on services each customer uses.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="6 of 12">
+            <div class="frame"><a href="img/telco-06-features-b.webp"><img src="img/telco-06-features-b.webp" width="1440" height="730" loading="lazy" alt="Feature engineering code, part 2: contract strength mapped 0 to 2, an autopay flag, and the interaction features high_charge_no_commitment and senior_with_fiber, followed by a note on data leakage."></a></div>
+            <figcaption><span class="step">06 · Features, part 2</span>Contract strength (month-to-month 0, one year 1, two year 2), autopay and interactions. Features using dataset-wide stats are recomputed inside each fold to avoid leakage.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="7 of 12">
+            <div class="frame"><a href="img/telco-07-kfold.webp"><img src="img/telco-07-kfold.webp" width="1440" height="521" loading="lazy" alt="Stratified 5-fold split code printing about 5,634 training and 1,409 validation rows per fold."></a></div>
+            <figcaption><span class="step">07 · Validation</span>Stratified 5-fold cross-validation keeps the same churn rate in every fold. Class weights handle the imbalance.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="8 of 12">
+            <div class="frame">
+              <table class="nb-table">
+                <caption>Cross-validated ROC-AUC, from the notebook's output</caption>
+                <thead><tr><th>Model</th><th>ROC-AUC</th></tr></thead>
+                <tbody>
+                  <tr><td>Logistic regression (baseline)</td><td>0.8510 ± 0.0132</td></tr>
+                  <tr><td>Neural network, class weights</td><td>0.8470 ± 0.0124</td></tr>
+                  <tr><td>Neural network, tuned</td><td>0.8497</td></tr>
+                  <tr><td>XGBoost, class weights</td><td>0.8508 ± 0.0128</td></tr>
+                  <tr><td>XGBoost, tuned</td><td>0.8511</td></tr>
+                  <tr class="best"><td>XGBoost, tuned, 2 features dropped</td><td>0.8514</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <figcaption><span class="step">08 · Models</span>Tuned XGBoost scored highest, but only just: every model landed near 0.85, within the fold-to-fold spread of about ±0.013.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="9 of 12">
+            <div class="frame"><a href="img/telco-09-tuning.webp"><img src="img/telco-09-tuning.webp" width="1440" height="675" loading="lazy" alt="Optuna optimization history plot for XGBoost over 100 trials, with the best value levelling off early."></a></div>
+            <figcaption><span class="step">09 · Tuning</span>Optuna searched XGBoost's hyperparameters over 100 trials, with the best score levelling off early.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="10 of 12">
+            <div class="frame"><a href="img/telco-10-shap.webp"><img src="img/telco-10-shap.webp" width="1440" height="1471" loading="lazy" alt="SHAP beeswarm plot for the XGBoost model. Contract strength, tenure and internet service type have the largest impact on predictions."></a></div>
+            <figcaption><span class="step">10 · SHAP</span>Weak contracts and short tenure push predictions toward churn, and fiber internet does too.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="11 of 12">
+            <div class="frame"><a href="img/telco-11-redundant.webp"><img src="img/telco-11-redundant.webp" width="1440" height="953" loading="lazy" alt="SHAP importance bars with a clustering dendrogram, followed by the decision to drop TotalCharges and is_loyal."></a></div>
+            <figcaption><span class="step">11 · Redundancy</span>SHAP clustering showed TotalCharges and is_loyal repeat what contract strength and tenure already say, so both were dropped and the model retuned.</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="12 of 12">
+            <div class="frame"><a href="img/telco-12-conclusion.webp"><img src="img/telco-12-conclusion.webp" width="1440" height="1126" loading="lazy" alt="The notebook's conclusion: objectives, key churn drivers, model insights and further improvements."></a></div>
+            <figcaption><span class="step">12 · Conclusion</span>Next steps: tune the decision threshold, give the neural network more training budget, and compare against LightGBM.</figcaption>
+          </figure>
+          </div>
+          <button class="car-btn prev" type="button" aria-label="Previous slide" disabled><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="car-btn next" type="button" aria-label="Next slide"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+          <span class="car-count" aria-hidden="true">1 / 12</span>
         </div>
       </article>
       </div>
@@ -575,6 +678,16 @@
     <a href="mailto:justin.jedidiah@gmail.com">Email</a>
   </nav>
 </footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot, full size">
+  <div class="lb-bar">
+    <div class="lb-cap"></div>
+    <button class="lb-btn lb-prev" type="button" aria-label="Previous screenshot"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="lb-btn lb-next" type="button" aria-label="Next screenshot"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    <button class="lb-btn lb-close" type="button" aria-label="Close"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="lb-scroll"><img alt=""></div>
+</dialog>
 
 <script>
 (function () {
@@ -723,6 +836,46 @@
     track.addEventListener('scroll', function () { clearTimeout(t); t = setTimeout(update, 60); }, { passive: true });
     update();
   });
+
+  /* ---------- Lightbox for deck screenshots ---------- */
+  var lb = document.getElementById('lightbox');
+  if (lb && lb.showModal) {
+    var lbImg = lb.querySelector('.lb-scroll img'), lbCap = lb.querySelector('.lb-cap');
+    var lbPrev = lb.querySelector('.lb-prev'), lbNext = lb.querySelector('.lb-next'), lbScroll = lb.querySelector('.lb-scroll');
+    var shots = [], at = 0;
+    var show = function (i) {
+      at = i;
+      var a = shots[i], img = a.querySelector('img');
+      lbImg.src = a.getAttribute('href');
+      lbImg.alt = img.alt;
+      lbCap.innerHTML = a.closest('.slide').querySelector('figcaption').innerHTML;
+      lbPrev.disabled = i === 0;
+      lbNext.disabled = i === shots.length - 1;
+      lbScroll.scrollTop = 0;
+      lbScroll.scrollLeft = 0;
+    };
+    document.querySelectorAll('.deck').forEach(function (deck) {
+      deck.addEventListener('click', function (e) {
+        var a = e.target.closest('.frame > a');
+        if (!a) return;
+        e.preventDefault();
+        shots = [].slice.call(deck.querySelectorAll('.frame > a'));
+        show(shots.indexOf(a));
+        document.documentElement.classList.add('lb-open');
+        lb.showModal();
+      });
+    });
+    lbPrev.addEventListener('click', function () { if (at > 0) show(at - 1); });
+    lbNext.addEventListener('click', function () { if (at < shots.length - 1) show(at + 1); });
+    lb.querySelector('.lb-close').addEventListener('click', function () { lb.close(); });
+    lb.addEventListener('close', function () { document.documentElement.classList.remove('lb-open'); });
+    // click on the dark area around the image closes it
+    lbScroll.addEventListener('click', function (e) { if (e.target === lbScroll) lb.close(); });
+    lb.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft' && at > 0) show(at - 1);
+      if (e.key === 'ArrowRight' && at < shots.length - 1) show(at + 1);
+    });
+  }
 
   /* ---------- Reveal on scroll ---------- */
   var els = document.querySelectorAll('.reveal');
