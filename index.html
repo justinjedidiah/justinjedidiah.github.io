@@ -777,18 +777,6 @@
   addEventListener('load', drawTerrain);
   onScroll();
 
-  /* ---------- Click anywhere on a video to play or pause ---------- */
-  document.querySelectorAll('.shot video').forEach(function (v) {
-    // Desktop: click the video to play or pause. Phones keep taps for their own
-    // controls, so this never runs there and their buttons stay reachable.
-    v.addEventListener('click', function (e) {
-      // leave the bottom strip to the browser's own control bar
-      if (e.clientY > v.getBoundingClientRect().bottom - 64) return;
-      e.preventDefault(); // stops browsers that already toggle on click from doing it twice
-      if (v.paused) v.play(); else v.pause();
-    });
-  });
-
   /* ---------- Carousels: arrows, counter, pause the video when it slides away ---------- */
   document.querySelectorAll('.carousel').forEach(function (c) {
     var track = c.querySelector('.track');
