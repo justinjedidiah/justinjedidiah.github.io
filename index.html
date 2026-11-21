@@ -403,39 +403,43 @@
       <article id="toc-rag" class="card glass reveal">
         <div class="shot carousel" role="region" aria-roledescription="carousel" aria-label="TOC-RAG demo video and screenshots">
           <div class="track">
-          <div class="slide" role="group" aria-roledescription="slide" aria-label="1 of 5">
-          <video controls muted playsinline preload="none" width="1280" height="720" poster="img/toc-rag-poster.jpg" aria-label="90-second TOC-RAG demo: browsing a document's outline, asking a question while the agent navigates the sections, opening the cited source, getting a chart back inline, then uploading a new document, checking the indexing cost and asking about it.">
+          <div class="slide" role="group" aria-roledescription="slide" aria-label="1 of 6">
+          <video controls muted playsinline preload="none" width="1280" height="720" poster="img/toc-rag-poster.jpg" aria-label="100-second TOC-RAG demo: browsing a document's outline and opening a section, asking a question while the agent navigates the sections, expanding the steps to see why it took each one, opening the cited source, getting a chart back inline and viewing it full size, then uploading a new document, checking the indexing cost and asking about it.">
             <source src="img/toc-rag-demo.mp4" type="video/mp4">
           </video>
           </div>
-          <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 5">
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="2 of 6">
             <img src="img/toc-rag-outline.jpg" width="960" height="540" loading="lazy" alt="The outline panel listing the Fernhill Employee Handbook's sections, each with a short summary, next to the sample questions.">
             <figcaption>Each document gets an outline</figcaption>
           </figure>
-          <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 5">
-            <img src="img/toc-rag-citation.jpg" width="960" height="540" loading="lazy" alt="An answer showing the sections the agent opened and read, with a citation that opens the 'Revenue by segment' section in the source panel.">
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="3 of 6">
+            <img src="img/toc-rag-steps.jpg" width="960" height="540" loading="lazy" alt="An answer with its two steps expanded: each says why the agent opened the annual report and read the 'Revenue by segment' section, above the answer and its citation.">
+            <figcaption>Every step says why</figcaption>
+          </figure>
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="4 of 6">
+            <img src="img/toc-rag-citation.jpg" width="960" height="540" loading="lazy" alt="An answer with a citation that opens the 'Revenue by segment' section in the source panel, showing its summary, text and table.">
             <figcaption>Every answer cites its source</figcaption>
           </figure>
-          <figure class="slide" role="group" aria-roledescription="slide" aria-label="4 of 5">
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="5 of 6">
             <img src="img/toc-rag-chart.jpg" width="960" height="540" loading="lazy" alt="A revenue by segment and quarter bar chart returned with an answer, opened full size with its generated description underneath.">
             <figcaption>Ask for a chart, get the chart</figcaption>
           </figure>
-          <figure class="slide" role="group" aria-roledescription="slide" aria-label="5 of 5">
-            <img src="img/toc-rag-cost.jpg" width="960" height="540" loading="lazy" alt="Dialog before indexing an uploaded handbook, showing the preset, model, number of sections, model calls and estimated tokens.">
+          <figure class="slide" role="group" aria-roledescription="slide" aria-label="6 of 6">
+            <img src="img/toc-rag-cost.jpg" width="960" height="540" loading="lazy" alt="Dialog before indexing an uploaded handbook, showing the preset, model, number of sections, model calls and estimated tokens, next to the Free, Budget and Full presets.">
             <figcaption>See the cost before you index</figcaption>
           </figure>
           </div>
           <button class="car-btn prev" type="button" aria-label="Previous slide" disabled><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
           <button class="car-btn next" type="button" aria-label="Next slide"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
-          <span class="car-count" aria-hidden="true">1 / 5</span>
+          <span class="car-count" aria-hidden="true">1 / 6</span>
         </div>
         <div class="card-body">
-          <div class="card-meta"><span><b>1.1</b> Agentic retrieval</span><span>90-sec demo · Live</span></div>
+          <div class="card-meta"><span><b>1.1</b> Agentic retrieval</span><span>100-sec demo · Live</span></div>
           <h4>TOC-RAG</h4>
           <p class="hook">Retrieval without vectors. Instead of chunking and embedding, it reads a document the way a person would: through its table of contents.</p>
           <ul class="points">
             <li>Builds a section tree from Word headings, PDF bookmarks or the printed contents page, then summarizes each section</li>
-            <li>An agent opens, reads and backs out of sections, and you can watch the path it takes</li>
+            <li>An agent opens, reads and backs out of sections, and each step it takes says why</li>
             <li>Section summaries also describe charts and images, so you can ask for a figure and get it back with the answer</li>
           </ul>
           <div class="card-foot">
